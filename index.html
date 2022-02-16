@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Game Club sort tool</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="./style.css">
+		<script type="text/javascript" src="./Sortable.js"></script>
+	</head>
+	<body>
+		<noscript>
+			<p>This page requires JavaScript to function.</p>
+		</noscript>
+		
+		<section class="main">
+			<div id="gameList"></div>
+		</section>
+		
+		<section class="sidebar">
+			<select id="whoami" name="whoami">
+				<option value="">Please select a user.</option>
+			</select>
+			
+			<textarea id="exportField" readonly spellcheck="false"></textarea>
+			<button id="copyButton">Copy to clipboard.</button>
+			<p id="copyStatus"></p>
+		</section>
+		
+		<script type="text/javascript" src="./logic.js"></script>
+	</body>
+</html>

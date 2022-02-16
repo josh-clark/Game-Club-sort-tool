@@ -1,0 +1,41 @@
+body {
+	margin: 0 auto;
+	max-width: 1000px;
+	display: grid;
+	grid-template-columns: repeat(12, [col-start] 1fr);
+	grid-gap: 8px;
+	padding: 8px;
+}
+
+body > * {
+	grid-column: col-start / span 12;
+}
+
+.sidebar textarea {
+	width: 95%;
+	height: 20em;
+}
+
+p#copyStatus {
+	margin: 0.333333em 0;
+}
+.success {
+	color: #090;
+}
+.failure {
+	color: #900;
+}
+
+@media (min-width: 720px) {
+	body > noscript {
+		grid-column: col-start / span 12;
+	}
+	
+	body > .main {
+		grid-column: col-start / span 8;
+	}
+
+	body > .sidebar {
+		grid-column: col-start 9 / span 4;
+	}
+}
