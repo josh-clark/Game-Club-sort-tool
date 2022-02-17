@@ -1,5 +1,4 @@
 var data = {};
-var foo;
 
 function fillUserList(users) {
 	var select = document.querySelector("#whoami");
@@ -11,7 +10,8 @@ function fillUserList(users) {
 		fragment.appendChild(option);
 	});
 	select.appendChild(fragment);
-	select.onchange = createList;
+	select.addEventListener("change", createList);
+	select.addEventListener("change", exportList);
 }
 
 function createList(event) {
@@ -40,7 +40,7 @@ function createList(event) {
 		if (!listsByScore.hasOwnProperty("gameList" + userDatum.score)) {
 			listsByScore["gameList" + userDatum.score] = [];
 		}
-		listsByScore["gameList" + userDatum.score].push(userDatum.game);
+		listsByScore["gameList" + userDatum.score].push(userDatum);
 	});
 	Object.keys(listsByScore).forEach(function (listName) {
 		var ol = document.createElement("ol");
@@ -51,8 +51,11 @@ function createList(event) {
 		// Populate each score's sub-list.
 		listsByScore[listName].forEach(function (game) {
 			var li = document.createElement("li");
-			li.innerText = game;
+			var wrap = document.createElement("div");
+			wrap.innerText = game.game;
 			li.className = "list-group-item";
+			li.setAttribute("data-id", game.id);
+			li.appendChild(wrap);
 			ol.appendChild(li);
 		});
 		
@@ -72,7 +75,7 @@ function exportList(event) {
 	var exportText = "";
 	var i = 1;
 	itemList.forEach(function (item) {
-		exportText += item.innerText + "\t" + (itemList.length-i) + "\r\n";
+		exportText += item.getAttribute("data-id") + "\t" + (itemList.length-i) + "\r\n";
 		i++;
 	});
 	var exportField = document.querySelector('#exportField');
@@ -81,11 +84,9 @@ function exportList(event) {
 
 function formatData(event) {
 	if (this.status === 200) {
-		var gameClubData = this.response;
-		console.log(gameClubData);
-		data = gameClubData;
+		data = this.response;
 		
-		fillUserList(Object.keys(gameClubData));
+		fillUserList(Object.keys(data));
 	}
 	else {
 		console.log("Request failed.  " + this.status);
@@ -113,13 +114,20 @@ document.querySelector("#copyButton").addEventListener("click", function (event)
 		var aux = document.createElement("input");
 		aux.setAttribute("type", "hidden");
 		aux.setAttribute("value", copyText);
-		console.log(copyText);
 		document.body.appendChild(aux);
 		aux.select();
 		document.execCommand("copy");
 		document.body.removeChild(aux);
 	}
 });
+
+document.querySelector("#exportField").addEventListener("focus", function (event) {
+	event.target.select();
+});
+
+if (navigator.clipboard === undefined) {
+	document.querySelector("#copyButton").style = "display: none;";
+}
 
 var req = new XMLHttpRequest();
 req.responseType = "json";

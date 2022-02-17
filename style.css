@@ -1,6 +1,13 @@
+html {
+	scroll-behavior: smooth;
+}
+
 body {
+	/*max-width: 960px;*/
+	min-height: 100vh;
+	text-rendering: optimizeSpeed;
+	font-family: Calibri, Arial, sans-serif;
 	margin: 0 auto;
-	max-width: 1000px;
 	display: grid;
 	grid-template-columns: repeat(12, [col-start] 1fr);
 	grid-gap: 8px;
@@ -11,6 +18,9 @@ body > * {
 	grid-column: col-start / span 12;
 }
 
+.sidebar select {
+	width: 95%;
+}
 .sidebar textarea {
 	width: 95%;
 	height: 20em;
@@ -26,16 +36,73 @@ p#copyStatus {
 	color: #900;
 }
 
-@media (min-width: 720px) {
+@media (min-width: 880px) {
 	body > noscript {
 		grid-column: col-start / span 12;
 	}
-	
 	body > .main {
-		grid-column: col-start / span 8;
+		grid-column: col-start / span 10;
 	}
-
 	body > .sidebar {
-		grid-column: col-start 9 / span 4;
+		grid-column: col-start 11 / span 2;
+	}
+	
+	#gameList {
+		display: inline-flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+	}
+	#gameList h1 {
+		text-align: center;
+		width: 100%;
+	}
+	#gameList .list-group {
+		flex: 1;
+		min-width: 100px;
 	}
 }
+
+#gameList {
+	
+}
+#gameList h1 {
+	
+}
+#gameList .list-group {
+	
+}
+#gameList .list-group .list-group-item {
+	color: inherit;
+}
+#gameList .list-group .list-group-item div {
+	border-color: #000;
+	border-style: solid;
+	border-width: 1px;
+	color: #000;
+	margin: 0.5em 0;
+	padding: 0 0.25em;
+	width: fit-content;
+	width: -moz-fit-content;
+}
+
+#gameList > #gameList4 { border-color: #083; color: #083; }
+#gameList > #gameList3 { border-color: #470; color: #470; }
+#gameList > #gameList2 { border-color: #740; color: #740; }
+#gameList > #gameList1 { border-color: #900; color: #900; }
+
+#gameList > #gameList5 { border-color: #083; color: #083; }
+#gameList > #gameList5 ~ #gameList4 { border-color: #090; color: #090; }
+#gameList > #gameList5 ~ #gameList3 { border-color: #770; color: #770; }
+#gameList > #gameList5 ~ #gameList2 { border-color: #830; color: #830; }
+#gameList > #gameList5 ~ #gameList1 { border-color: #900; color: #900; }
+
+#gameList > #gameList4 .list-group-item div { background-color: #4E7; }
+#gameList > #gameList3 .list-group-item div { background-color: #BD4; }
+#gameList > #gameList2 .list-group-item div { background-color: #DB4; }
+#gameList > #gameList1 .list-group-item div { background-color: #E88; }
+
+#gameList > #gameList5 .list-group-item div { background-color: #4E7; }
+#gameList > #gameList5 ~ #gameList4 .list-group-item div { background-color: #9E4; }
+#gameList > #gameList5 ~ #gameList3 .list-group-item div { background-color: #EE6; }
+#gameList > #gameList5 ~ #gameList2 .list-group-item div { background-color: #E94; }
+#gameList > #gameList5 ~ #gameList1 .list-group-item div { background-color: #E88; }
