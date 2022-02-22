@@ -80,6 +80,7 @@ function exportList(event) {
 	});
 	var exportField = document.querySelector('#exportField');
 	exportField.value = exportText;
+	saveData();
 }
 
 function formatData(event) {
@@ -92,6 +93,58 @@ function formatData(event) {
 		console.log("Request failed.  " + this.status);
 	}
 }
+
+function saveData() {
+	if (window.localStorage !== undefined && localStorage.getItem("cookie-consent") === "accepted") {
+		localStorage.setItem("data", JSON.stringify(data));
+	}
+	//document.cookie = "data=" + document.querySelector('#exportField').value + "; max-age=31536000";
+}
+
+function loadData() {
+	if (window.localStorage !== undefined) {
+		data = JSON.parse(localStorage.getItem("data"));
+	}
+	if (data === undefined) {
+		//data = document.cookie.split("; ").find(item => item.startsWith("data=")).split("=")[1];
+		console.log(data);
+	}
+}
+
+function clearData() {
+	if (window.localStorage !== undefined) {
+		localStorage.clear();
+	}
+	//document.cookie = "data=; expires=0";
+}
+
+
+
+// This is the "on-load" stuff.
+
+// Event Listeners
+
+document.querySelector("#acceptCookies").addEventListener("click", function (event) {
+	const isAccepted = event.target.checked;
+	if (isAccepted) {
+		localStorage.setItem("cookie-consent", "accepted");
+		saveData();
+	}
+	else {
+		clearData();
+	}
+});
+
+document.querySelector("#cookieExplanationToggle").addEventListener("click", function (event) {
+	var explanation = document.querySelector("#cookieExplanation");
+	const isVisible = explanation.className === "visible";
+	if (!isVisible) {
+		explanation.className = "visible";
+	}
+	else {
+		explanation.className = "";
+	}
+});
 
 document.querySelector("#copyButton").addEventListener("click", function (event) {
 	const copyText = document.querySelector("#exportField").value;
@@ -125,15 +178,31 @@ document.querySelector("#exportField").addEventListener("focus", function (event
 	event.target.select();
 });
 
+
+// Set up field defaults.
+
+document.querySelector("#acceptCookies").checked = window.localStorage !== undefined && localStorage.getItem("cookie-consent") === "accepted";
+
 if (navigator.clipboard === undefined) {
 	document.querySelector("#copyButton").style = "display: none;";
 }
 
-var req = new XMLHttpRequest();
-req.responseType = "json";
-req.open("GET", "./data.json", true);
-req.onload = formatData;
-req.send();
+if (document.querySelector("#acceptCookies").checked) {
+	loadData();
+}
+
+if (Object.keys(data).length > 0) {
+	fillUserList(Object.keys(data));
+	console.log("loading data from localStorage");
+}
+else {
+	console.log("loading data from XHR");
+	var req = new XMLHttpRequest();
+	req.responseType = "json";
+	req.open("GET", "./data.json", true);
+	req.onload = formatData;
+	req.send();
+}
 
 document.querySelector('#exportField').value = "";
 
