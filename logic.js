@@ -55,6 +55,7 @@ function createList(event) {
 			wrap.innerText = game.game;
 			li.className = "list-group-item";
 			li.setAttribute("data-id", game.id);
+			li.setAttribute("data-score", game.score);
 			li.appendChild(wrap);
 			ol.appendChild(li);
 		});
@@ -62,7 +63,7 @@ function createList(event) {
 		Sortable.create(ol, {
 			animation: 150,
 			ghostClass: "ghost",
-			onEnd: exportList
+			onSort: exportList
 		});
 		fragment.appendChild(ol);
 	});
@@ -70,14 +71,34 @@ function createList(event) {
 	gameList.appendChild(fragment);
 }
 
+/**
+ * Export the sorted list of games to the export field,
+ * update the data object to match the sorted list,
+ * and commit the updated data object to localStorage.
+ */
 function exportList(event) {
-	var itemList = document.querySelector('#gameList').querySelectorAll(".list-group-item");
+	var itemList = document.querySelector("#gameList").querySelectorAll(".list-group-item");
 	var exportText = "";
 	var i = 1;
+	const user = document.querySelector("#gameList h1").innerText;
+	
+	// Clear out data object for current user.
+	data[user] = [];
+	
 	itemList.forEach(function (item) {
+		// Push game item into export field.
 		exportText += item.getAttribute("data-id") + "\t" + (itemList.length-i) + "\r\n";
 		i++;
+		
+		// Push game item into data object for current user.
+		data[user].push({
+			"id": item.getAttribute("data-id"),
+			"game": item.innerText,
+			"score": item.getAttribute("data-score")
+		});
 	});
+	
+	// Commit.
 	var exportField = document.querySelector('#exportField');
 	exportField.value = exportText;
 	saveData();

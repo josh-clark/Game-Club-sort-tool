@@ -21,7 +21,7 @@ body > * {
 /* https://stackoverflow.com/a/12642009 */
 button.link-like {
 	align-items: normal;
-	background-color: rgba(0,0,0,0);
+	background-color: rgba(0, 0, 0, 0);
 	border-color: rgb(0, 0, 238);
 	border-style: none;
 	box-shadow: none;
@@ -74,12 +74,20 @@ p#copyStatus {
 }
 
 #cookieExplanation {
-	font-size: .833333em;
+	background-color: rgba(200, 200, 20, 0.333333);
+	font-size: 0.833333em;
+	margin-top: 0.75em;
+	padding: 0.5em 0.6em;
 	visibility: hidden;
 }
 #cookieExplanation.visible {
 	visibility: visible;
 }
+#cookieExplanation p {
+	margin: 0.6em 0;
+}
+#cookieExplanation p:first-child { margin-top: 0; }
+#cookieExplanation p:last-child { margin-bottom: 0; }
 
 @media (min-width: 880px) {
 	body > noscript {
