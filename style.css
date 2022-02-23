@@ -11,11 +11,15 @@ body {
 	display: grid;
 	grid-template-columns: repeat(12, [col-start] 1fr);
 	grid-gap: 8px;
-	padding: 8px;
+	padding: 0 8px;
 }
 
 body > * {
 	grid-column: col-start / span 12;
+}
+
+body > .sidebar {
+	margin-top: 1em;
 }
 
 /* https://stackoverflow.com/a/12642009 */
@@ -63,15 +67,18 @@ button.link-like {
 	height: 20em;
 }
 
-p#copyStatus {
+#copyStatus {
 	margin: 0.333333em 0;
+	opacity: 1;
 }
-.success {
-	color: #090;
+#copyStatus.success, #copyStatus.failure {
+	opacity: 0;
+	transition-property: opacity;
+	transition-duration: 500ms;
+	transition-timing-function: ease-out;
 }
-.failure {
-	color: #900;
-}
+#copyStatus.success { color: #090; transition-delay: 2000ms; }
+#copyStatus.failure { color: #900; transition-delay: 4500ms; }
 
 #cookieExplanation {
 	background-color: rgba(200, 200, 20, 0.333333);
@@ -88,32 +95,6 @@ p#copyStatus {
 }
 #cookieExplanation p:first-child { margin-top: 0; }
 #cookieExplanation p:last-child { margin-bottom: 0; }
-
-@media (min-width: 880px) {
-	body > noscript {
-		grid-column: col-start / span 12;
-	}
-	body > .main {
-		grid-column: col-start / span 10;
-	}
-	body > .sidebar {
-		grid-column: col-start 11 / span 2;
-	}
-	
-	#gameList {
-		display: inline-flex;
-		justify-content: space-between;
-		flex-wrap: wrap;
-	}
-	#gameList h1 {
-		text-align: center;
-		width: 100%;
-	}
-	#gameList .list-group {
-		flex: 1;
-		min-width: 100px;
-	}
-}
 
 #gameList {
 	
@@ -159,3 +140,31 @@ p#copyStatus {
 #gameList > #gameList5 ~ #gameList3 .list-group-item div { background-color: #EE6; }
 #gameList > #gameList5 ~ #gameList2 .list-group-item div { background-color: #E94; }
 #gameList > #gameList5 ~ #gameList1 .list-group-item div { background-color: #E88; }
+
+
+@media (min-width: 880px) {
+	body > noscript {
+		grid-column: col-start / span 12;
+	}
+	body > .main {
+		grid-column: col-start / span 10;
+	}
+	body > .sidebar {
+		grid-column: col-start 11 / span 2;
+		margin-top: 2.5em;
+	}
+	
+	#gameList {
+		display: inline-flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+	}
+	#gameList h1 {
+		text-align: center;
+		width: 100%;
+	}
+	#gameList .list-group {
+		flex: 1;
+		min-width: 100px;
+	}
+}
